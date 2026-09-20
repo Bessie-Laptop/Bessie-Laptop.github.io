@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TOM · 汤姆的复古猫咪杂志</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=Special+Elite&family=Space+Mono:wght@400;700&family=Noto+Serif+SC:wght@400;600;700;900&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EFE3C8;        /* 暖米色纸张底 */
+    --paper-2:#F6ECD4;      /* 奶油 */
+    --paper-3:#E5D8B6;      /* 深米色 */
+    --ink:#1A1815;          /* 复古黑 */
+    --ink-2:#3A352B;
+    --ink-3:#6F6552;
+    --blue:#1B3A8C;         /* 钴蓝撞色 */
+    --blue-2:#2C56B0;
+    --blue-bg:#DCE5F4;
+    --red:#B23A2A;          /* 印章红 */
+    --red-bg:#F3DDD6;
+    --green:#5C7A3F;        /* 旧绿 */
+    --tape:#F4E3A1;         /* 胶带黄 */
+    --line:#C9B98E;
+    --shadow:0 8px 22px rgba(60,40,15,.16);
+    --shadow-hard:6px 6px 0 var(--ink);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    font-family:"Noto Serif SC","Playfair Display",serif;
+    color:var(--ink);
+    line-height:1.7;
+    background:var(--paper);
+    background-image:
+      /* 纸张颗粒/旧报质感 */
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.18  0 0 0 0 0.14  0 0 0 0 0.07  0 0 0 0.18 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
+      radial-gradient(circle at 12% 15%, rgba(177,58,42,.06) 0, transparent 18%),
+      radial-gradient(circle at 88% 88%, rgba(27,58,140,.07) 0, transparent 22%);
+    background-attachment:fixed;
+    overflow-x:hidden;
+  }
+
+  .wrap{
+    max-width:1080px;
+    margin:0 auto;
+    padding:30px 22px 60px;
+    position:relative;
+  }
+
+  /* ========== 报头 MASTHEAD ========== */
+  .masthead{
+    position:relative;
+    border:3px double var(--ink);
+    background:var(--paper-2);
+    padding:26px 30px 22px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  .masthead::before{
+    content:"";
+    position:absolute;inset:6px;
+    border:1px solid var(--ink);
+    pointer-events:none;
+  }
+  .mast-top{
+    display:flex;justify-content:space-between;align-items:center;
+    border-bottom:1px solid var(--ink);
+    padding-bottom:8px;margin-bottom:14px;
+    font-family:"Special Elite",monospace;
+    font-size:12px;letter-spacing:2px;text-transform:uppercase;
+    color:var(--ink-2);
+    position:relative;z-index:1;
+  }
+  .mast-top .dot{
+    display:inline-block;width:8px;height:8px;border-radius:50%;
+    background:var(--red);margin:0 6px;vertical-align:middle;
+  }
+  .mast-title{
+    position:relative;z-index:1;
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:center;
+    gap:18px;
+  }
+  .mast-title .side{
+    font-family:"Special Elite",monospace;
+    font-size:11px;letter-spacing:1.5px;
+    color:var(--ink-2);text-transform:uppercase;
+    line-height:1.5;
+  }
+  .mast-title .side.l{text-align:right;}
+  .mast-title .side .num{display:block;font-size:26px;color:var(--blue);font-weight:700;font-family:"Playfair Display",serif;}
+  .mast-title h1{
+    font-family:"Playfair Display",serif;
+    font-weight:900;
+    font-size:clamp(58px,12vw,128px);
+    line-height:.85;
+    letter-spacing:-3px;
+    text-align:center;
+    color:var(--ink);
+    text-shadow:4px 4px 0 var(--blue);
+  }
+  .mast-sub{
+    text-align:center;margin-top:14px;
+    font-family:"Playfair Display",serif;
+    font-style:italic;font-weight:700;
+    font-size:clamp(18px,3vw,26px);
+    letter-spacing:2px;
+    position:relative;z-index:1;
+  }
+  .mast-sub .cn{
+    font-family:"Ma Shan Zheng",cursive;
+    color:var(--red);font-size:1.1em;margin:0 8px;
+  }
+  .mast-bottom{
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;
+    border-top:1px solid var(--ink);
+    margin-top:14px;padding-top:10px;
+    font-family:"Special Elite",monospace;
+    font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--ink-2);
+    position:relative;z-index:1;
+  }
+  .mast-bottom .stamp{
+    display:inline-block;
+    border:2px solid var(--red);color:var(--red);
+    padding:3px 10px;border-radius:4px;
+    font-weight:700;letter-spacing:2px;
+    transform:rotate(-3deg);
+  }
+
+  /* ========== 导航标签 ========== */
+  .nav-tabs{
+    display:flex;
+    gap:0;
+    margin:22px 0 26px;
+    border:2px solid var(--ink);
+    background:var(--paper-2);
+    box-shadow:5px 5px 0 var(--blue);
+    position:sticky;top:8px;z-index:30;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .nav-tabs::-webkit-scrollbar{display:none;}
+  .nav-tab{
+    flex:1;min-width:120px;
+    padding:14px 12px;
+    border:none;
+    border-right:2px solid var(--ink);
+    background:transparent;
+    color:var(--ink);
+    font-family:"Noto Serif SC",serif;
+    font-size:15px;font-weight:700;letter-spacing:1px;
+    cursor:pointer;
+    text-align:center;
+    position:relative;
+    transition:background .25s, color .25s;
+  }
+  .nav-tab:last-child{border-right:none;}
+  .nav-tab .no{
+    display:block;
+    font-family:"Space Mono",monospace;
+    font-size:11px;font-weight:700;
+    color:var(--blue);
+    letter-spacing:2px;margin-bottom:3px;
+  }
+  .nav-tab:hover{background:var(--blue-bg);}
+  .nav-tab.active{
+    background:var(--ink);color:var(--paper-2);
+  }
+  .nav-tab.active .no{color:var(--tape);}
+
+  /* ========== 面板通用 ========== */
+  .panel{display:none;animation:fadeUp .5s ease-out both;}
+  .panel.active{display:block;}
+
+  .section-bar{
+    display:flex;align-items:flex-end;gap:14px;
+    margin-bottom:18px;
+    border-bottom:3px double var(--ink);
+    padding-bottom:10px;
+  }
+  .section-bar .no{
+    font-family:"Space Mono",monospace;
+    font-size:14px;font-weight:700;letter-spacing:2px;
+    color:var(--blue);
+    background:var(--tape);
+    padding:4px 10px;
+    border:2px solid var(--ink);
+    box-shadow:3px 3px 0 var(--ink);
+  }
+  .section-bar h2{
+    font-family:"Playfair Display",serif;
+    font-weight:900;font-size:34px;
+    letter-spacing:-1px;line-height:1;
+    flex:1;
+  }
+  .section-bar h2 .cn{
+    font-family:"Ma Shan Zheng",cursive;
+    color:var(--red);font-size:.7em;margin-left:10px;
+  }
+  .section-bar .tag-side{
+    font-family:"Special Elite",monospace;
+    font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--ink-3);
+  }
+
+  /* ========== 01 档案 ========== */
+  .file-grid{
+    display:grid;
+    grid-template-columns:300px 1fr;
+    gap:24px;
+    align-items:start;
+  }
+  .polaroid{
+    background:#fff;
+    padding:12px 12px 38px;
+    box-shadow:var(--shadow);
+    position:relative;
+    transform:rotate(-2.5deg);
+    transition:transform .4s, box-shadow .4s;
+  }
+  .polaroid:hover{transform:rotate(0) scale(1.02);box-shadow:0 14px 30px rgba(60,40,15,.25);}
+  .polaroid img{
+    width:100%;aspect-ratio:1/1;object-fit:cover;display:block;
+    object-position:right 20%;
+    background:var(--paper-3);
+  }
+  .polaroid .cap{
+    position:absolute;left:0;right:0;bottom:10px;
+    text-align:center;
+    font-family:"Ma Shan Zheng",cursive;
+    font-size:18px;color:var(--ink);
+  }
+  .polaroid .tape{
+    position:absolute;top:-10px;left:50%;transform:translateX(-50%) rotate(-4deg);
+    width:90px;height:22px;
+    background:var(--tape);
+    opacity:.85;
+    box-shadow:0 1px 2px rgba(0,0,0,.1);
+  }
+  .polaroid .pin{
+    position:absolute;top:-8px;right:14px;
+    width:18px;height:18px;border-radius:50%;
+    background:var(--red);
+    box-shadow:0 2px 3px rgba(0,0,0,.3),inset -3px -3px 5px rgba(0,0,0,.25);
+  }
+
+  .file-card{
+    background:var(--paper-2);
+    border:2px solid var(--ink);
+    padding:22px 24px;
+    box-shadow:6px 6px 0 var(--ink);
+    position:relative;
+  }
+  .file-card::before{
+    content:"CONFIDENTIAL · 机密档案";
+    position:absolute;top:-12px;left:18px;
+    background:var(--red);color:var(--paper-2);
+    font-family:"Space Mono",monospace;font-size:10px;
+    letter-spacing:2px;padding:3px 10px;
+    transform:rotate(-1.5deg);
+  }
+  .file-card h3{
+    font-family:"Playfair Display",serif;
+    font-weight:900;font-size:30px;
+    margin-bottom:4px;line-height:1;
+  }
+  .file-card h3 small{
+    display:block;font-family:"Special Elite",monospace;
+    font-size:12px;color:var(--ink-3);letter-spacing:2px;
+    margin-top:4px;font-weight:400;
+  }
+  .file-meta{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin:16px 0;
+  }
+  .meta-row{
+    border-bottom:1px dashed var(--line);
+    padding:6px 0;
+  }
+  .meta-row .k{
+    font-family:"Space Mono",monospace;
+    font-size:10px;letter-spacing:2px;
+    color:var(--blue);text-transform:uppercase;
+    display:block;margin-bottom:2px;
+  }
+  .meta-row .v{
+    font-size:15px;font-weight:600;color:var(--ink);
+  }
+  .meta-row .v span{font-weight:400;color:var(--ink-3);font-size:12px;margin-left:4px;}
+
+  .blue-block{
+    background:var(--blue);color:var(--paper-2);
+    padding:14px 16px;margin-top:6px;
+    border:2px solid var(--ink);
+    box-shadow:4px 4px 0 var(--ink);
+  }
+  .blue-block .lbl{
+    font-family:"Space Mono",monospace;
+    font-size:10px;letter-spacing:2px;
+    color:var(--tape);text-transform:uppercase;
+    margin-bottom:6px;
+  }
+  .blue-block .txt{font-size:15px;line-height:1.7;font-weight:500;}
+  .blue-block .txt b{color:var(--tape);}
+
+  .stickers{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+  .sticker{
+    background:var(--tape);
+    border:1.5px solid var(--ink);
+    padding:5px 12px;
+    font-family:"Ma Shan Zheng",cursive;
+    font-size:15px;color:var(--ink);
+    transform:rotate(-2deg);
+    box-shadow:2px 2px 0 var(--ink);
+    transition:transform .25s;
+  }
+  .sticker:hover{transform:rotate(0) translateY(-2px);}
+  .sticker:nth-child(even){background:var(--blue-bg);transform:rotate(2deg);}
+  .sticker:nth-child(even):hover{transform:rotate(0) translateY(-2px);}
+  .sticker:nth-child(3n){background:var(--red-bg);transform:rotate(-1deg);}
+  .sticker:nth-child(3n):hover{transform:rotate(0) translateY(-2px);}
+
+  /* ========== 02 相册拼贴墙 ========== */
+  .album-wall{
+    display:grid;
+    grid-template-columns:repeat(12,1fr);
+    gap:18px;
+    padding:10px 4px;
+  }
+  .photo{
+    background:#fff;
+    padding:10px 10px 32px;
+    box-shadow:var(--shadow);
+    position:relative;
+    transition:transform .4s cubic-bezier(.2,.7,.3,1), box-shadow .4s, z-index 0s;
+    cursor:pointer;
+  }
+  .photo:hover{
+    transform:rotate(0) scale(1.06) !important;
+    box-shadow:0 18px 38px rgba(60,40,15,.3);
+    z-index:5;
+  }
+  .photo img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    background:var(--paper-3);
+  }
+  .photo .pic{aspect-ratio:1/1;overflow:hidden;background:var(--paper-3);}
+  .photo .lab{
+    position:absolute;left:0;right:0;bottom:8px;
+    text-align:center;
+    font-family:"Ma Shan Zheng",cursive;
+    font-size:16px;color:var(--ink);
+  }
+  .photo .lab .n{
+    font-family:"Space Mono",monospace;
+    font-size:10px;color:var(--blue);
+    display:block;letter-spacing:2px;margin-bottom:1px;
+  }
+  /* 错落布局：12列网格，每张占不同列数和行起始 */
+  .photo.p1{grid-column:span 4;transform:rotate(-3deg);}
+  .photo.p2{grid-column:span 5;transform:rotate(2deg);margin-top:24px;}
+  .photo.p3{grid-column:span 3;transform:rotate(-1.5deg);margin-top:8px;}
+  .photo.p4{grid-column:span 4;transform:rotate(2.5deg);}
+  .photo.p5{grid-column:span 4;transform:rotate(-2deg);margin-top:14px;}
+  .photo.p6{grid-column:span 4;transform:rotate(1deg);margin-top:6px;}
+  .photo.p7{grid-column:span 5;transform:rotate(-2.5deg);}
+  .photo.p8{grid-column:span 3;transform:rotate(2deg);margin-top:18px;}
+  .photo.p9{grid-column:span 4;transform:rotate(-1deg);margin-top:10px;}
+
+  .album-note{
+    grid-column:span 12;
+    background:var(--blue);
+    color:var(--paper-2);
+    padding:14px 18px;
+    border:2px solid var(--ink);
+    box-shadow:5px 5px 0 var(--ink);
+    font-family:"Playfair Display",serif;
+    font-style:italic;font-weight:700;
+    font-size:18px;text-align:center;
+    transform:rotate(-.5deg);
+  }
+  .album-note .cn{font-family:"Ma Shan Zheng",cursive;color:var(--tape);font-style:normal;margin-left:10px;}
+
+  /* ========== 03 日记 ========== */
+  .diary-intro{
+    background:var(--paper-2);
+    border:2px solid var(--ink);
+    box-shadow:5px 5px 0 var(--red);
+    padding:14px 18px;
+    margin-bottom:22px;
+    font-family:"Playfair Display",serif;
+    font-style:italic;font-size:16px;
+    position:relative;
+  }
+  .diary-intro::before{
+    content:"EDITOR'S NOTE · 编者按";
+    position:absolute;top:-12px;left:14px;
+    background:var(--ink);color:var(--paper-2);
+    font-family:"Space Mono",monospace;font-size:10px;
+    letter-spacing:2px;padding:3px 10px;
+  }
+  .diary-list{display:flex;flex-direction:column;gap:22px;}
+  .diary{
+    display:grid;
+    grid-template-columns:80px 1fr;
+    gap:18px;
+    background:var(--paper-2);
+    border:2px solid var(--ink);
+    box-shadow:6px 6px 0 var(--ink);
+    padding:18px 20px;
+    transition:transform .3s, box-shadow .3s;
+  }
+  .diary:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--ink);}
+  .diary .dno{
+    font-family:"Playfair Display",serif;
+    font-weight:900;font-size:56px;
+    line-height:.9;color:var(--blue);
+    border-right:2px dashed var(--ink);
+    padding-right:14px;text-align:center;
+  }
+  .diary .dno small{
+    display:block;font-family:"Space Mono",monospace;
+    font-size:10px;letter-spacing:2px;color:var(--ink-3);
+    margin-top:4px;font-weight:400;
+  }
+  .diary .dhead{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    margin-bottom:8px;
+  }
+  .diary .ddate{
+    font-family:"Space Mono",monospace;
+    font-size:11px;letter-spacing:1.5px;
+    background:var(--tape);
+    border:1.5px solid var(--ink);
+    padding:2px 8px;
+  }
+  .diary .dtitle{
+    font-family:"Ma Shan Zheng",cursive;
+    font-size:22px;color:var(--ink);
+  }
+  .diary .dbody{
+    font-size:15.5px;line-height:1.95;color:var(--ink-2);
+    font-family:"Noto Serif SC",serif;
+  }
+  .diary .dbody em{font-style:normal;background:var(--tape);padding:0 4px;}
+  .diary .dbody .quote{
+    display:block;
+    border-left:3px solid var(--red);
+    padding:4px 12px;margin-top:8px;
+    font-family:"Ma Shan Zheng",cursive;
+    font-size:17px;color:var(--red);
+    background:rgba(244,227,161,.25);
+  }
+
+  /* ========== 04 成就 ========== */
+  .achv-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:18px;
+  }
+  .achv{
+    background:var(--paper-2);
+    border:2px solid var(--ink);
+    padding:18px;
+    box-shadow:5px 5px 0 var(--ink);
+    position:relative;
+    transition:transform .3s, box-shadow .3s;
+  }
+  .achv:hover{transform:translate(-2px,-2px) rotate(-.5deg);box-shadow:7px 7px 0 var(--ink);}
+  .achv .seal{
+    position:absolute;top:-14px;right:-10px;
+    width:54px;height:54px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:"Playfair Display",serif;font-weight:900;
+    font-size:22px;color:#fff;
+    border:3px solid var(--ink);
+    box-shadow:0 3px 6px rgba(0,0,0,.25);
+    transform:rotate(-8deg);
+  }
+  .achv.done .seal{background:var(--green);}
+  .achv.todo .seal{background:var(--ink-3);}
+  .achv .stat{
+    font-family:"Space Mono",monospace;
+    font-size:11px;letter-spacing:2px;
+    color:var(--blue);margin-bottom:6px;
+  }
+  .achv .ttl{
+    font-family:"Ma Shan Zheng",cursive;
+    font-size:22px;color:var(--ink);
+    margin-bottom:6px;line-height:1.2;
+  }
+  .achv .desc{
+    font-size:13.5px;color:var(--ink-2);line-height:1.7;
+  }
+  .achv.todo .ttl{color:var(--ink-3);}
+  .achv.todo.hard{
+    background:var(--red-bg);
+    box-shadow:5px 5px 0 var(--red);
+  }
+  .achv.todo.hard .seal{background:var(--red);}
+  .achv.todo.hard .stat{color:var(--red);}
+
+  .achv-banner{
+    margin-top:22px;
+    background:var(--ink);color:var(--paper-2);
+    border:2px solid var(--ink);
+    padding:14px 18px;
+    text-align:center;
+    font-family:"Playfair Display",serif;
+    font-style:italic;font-size:18px;
+    box-shadow:5px 5px 0 var(--blue);
+  }
+  .achv-banner .cn{font-family:"Ma Shan Zheng",cursive;color:var(--tape);font-style:normal;margin-left:10px;}
+
+  /* ========== 页脚 ========== */
+  footer{
+    margin-top:40px;
+    border-top:3px double var(--ink);
+    padding:20px 6px 0;
+    text-align:center;
+    font-family:"Special Elite",monospace;
+    font-size:12px;letter-spacing:1.5px;
+    color:var(--ink-2);line-height:1.9;
+    text-transform:uppercase;
+  }
+  footer .big{
+    font-family:"Playfair Display",serif;font-weight:900;
+    font-size:22px;letter-spacing:0;color:var(--ink);
+    text-transform:none;margin-bottom:6px;
+  }
+  footer .big .cn{font-family:"Ma Shan Zheng",cursive;color:var(--red);font-size:.85em;margin-left:8px;}
+  footer .stamp{
+    display:inline-block;margin:8px 4px 0;
+    border:2px solid var(--red);color:var(--red);
+    padding:4px 12px;letter-spacing:2px;
+    transform:rotate(-2deg);font-weight:700;
+  }
+
+  /* ========== 动画 ========== */
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(16px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+  @keyframes titleIn{
+    0%{opacity:0;transform:translateY(-10px) rotate(-1deg);}
+    100%{opacity:1;transform:translateY(0) rotate(0);}
+  }
+  .mast-title h1{animation:titleIn .8s ease-out both;}
+
+  /* ========== 响应式 ========== */
+  @media (max-width:760px){
+    .wrap{padding:20px 14px 48px;}
+    .masthead{padding:18px 16px 14px;}
+    .mast-top,.mast-bottom{font-size:10px;letter-spacing:1px;}
+    .mast-title{grid-template-columns:1fr;gap:8px;}
+    .mast-title .side.l,.mast-title .side.r{text-align:center;}
+    .mast-title .side .num{font-size:20px;}
+
+    .nav-tab{min-width:96px;padding:11px 8px;font-size:13px;}
+    .nav-tab .no{font-size:10px;}
+
+    .section-bar{flex-wrap:wrap;gap:8px;}
+    .section-bar h2{font-size:26px;width:100%;}
+
+    .file-grid{grid-template-columns:1fr;}
+    .polaroid{max-width:280px;margin:0 auto;transform:rotate(-2deg);}
+    .file-meta{grid-template-columns:1fr;}
+
+    .album-wall{grid-template-columns:repeat(6,1fr);gap:14px;}
+    .photo.p1,.photo.p2,.photo.p3,.photo.p4,.photo.p5,
+    .photo.p6,.photo.p7,.photo.p8,.photo.p9{
+      grid-column:span 6;margin-top:0;
+    }
+    .album-note{grid-column:span 6;font-size:15px;}
+
+    .diary{grid-template-columns:1fr;gap:10px;}
+    .diary .dno{
+      font-size:42px;border-right:none;border-bottom:2px dashed var(--ink);
+      padding-right:0;padding-bottom:8px;
+    }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none !important;transition:none !important;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ 报头 MASTHEAD ============ -->
+  <header class="masthead">
+    <div class="mast-top">
+      <span>EST. 2026 <span class="dot"></span> VOL.01</span>
+      <span>THE COW CAT CHRONICLES</span>
+      <span>PRICE: 3 CAT TREATS</span>
+    </div>
+
+    <div class="mast-title">
+      <div class="side l">
+        <span class="num">No.01</span>
+        黑白双色刊<br>BI-WEEKLY
+      </div>
+      <h1>TOM</h1>
+      <div class="side r">
+        <span class="num">ISSUE 2026</span>
+        奶牛猫专刊<br>COW CAT ED.
+      </div>
+    </div>
+
+    <div class="mast-sub">
+      COOL CAT <span class="cn">· 汤姆的官方领地 ·</span> COOL CAT
+    </div>
+
+    <div class="mast-bottom">
+      <span>外冷内疯 · 高冷脸 · 捣蛋鬼</span>
+      <span class="stamp">CERTIFIED BY TOM</span>
+      <span>PRINTED ON CATNIP PAPER</span>
+    </div>
+  </header>
+
+  <!-- ============ 导航标签 ============ -->
+  <nav class="nav-tabs" id="navTabs">
+    <button class="nav-tab active" data-target="panel-profile">
+      <span class="no">01 FILE</span>猫猫档案
+    </button>
+    <button class="nav-tab" data-target="panel-album">
+      <span class="no">02 ALBUM</span>猫生相册
+    </button>
+    <button class="nav-tab" data-target="panel-diary">
+      <span class="no">03 DIARY</span>猫猫日记
+    </button>
+    <button class="nav-tab" data-target="panel-achv">
+      <span class="no">04 ACHIEVEMENTS</span>猫生成就
+    </button>
+  </nav>
+
+  <!-- ============ 01 猫猫档案 ============ -->
+  <section class="panel active" id="panel-profile">
+    <div class="section-bar">
+      <span class="no">01</span>
+      <h2>FILE <span class="cn">汤姆的档案</span></h2>
+      <span class="tag-side">PERSONAL RECORD</span>
+    </div>
+
+    <div class="file-grid">
+      <!-- 拍立得头像 -->
+      <div class="polaroid">
+        <span class="tape"></span>
+        <span class="pin"></span>
+        <!-- 🐱 头像照片 -->
+        <img src="photo/1.jpg" alt="Tom的奶牛猫头像">
+        <div class="cap">Tom · 本猫</div>
+      </div>
+
+      <!-- 档案卡 -->
+      <div class="file-card">
+        <h3>TOM <small>ALIAS · 汤姆 / 牛奶大少爷</small></h3>
+
+        <div class="file-meta">
+          <div class="meta-row">
+            <span class="k">Breed · 品种</span>
+            <span class="v">黑白奶牛猫 <span>BI-COLOR</span></span>
+          </div>
+          <div class="meta-row">
+            <span class="k">Eyes · 瞳色</span>
+            <span class="v">翡翠绿 <span>EMERALD</span></span>
+          </div>
+          <div class="meta-row">
+            <span class="k">Job · 职业</span>
+            <span class="v">全职观察员 <span>OBSERVER</span></span>
+          </div>
+          <div class="meta-row">
+            <span class="k">Servant · 仆人</span>
+            <span class="v">人类铲屎官 ×1 <span>STILL TRAINING</span></span>
+          </div>
+          <div class="meta-row">
+            <span class="k">Base · 据点</span>
+            <span class="v">行李箱 / 沙发 / 阳光位</span>
+          </div>
+          <div class="meta-row">
+            <span class="k">KPI · 指标</span>
+            <span class="v">睡14h + 讨猫条若干</span>
+          </div>
+        </div>
+
+        <div class="blue-block">
+          <div class="lbl">PERSONALITY · 性格分析</div>
+          <div class="txt">外冷内疯。<b>表面</b>高冷不屑一顾，<b>背地里</b>上蹿下跳拆家不停。对人类保持距离感，对猫条零抵抗力。仙人掌是其天敌，行李箱是其王座。</div>
+        </div>
+
+        <div class="stickers">
+          <span class="sticker">高冷脸</span>
+          <span class="sticker">捣蛋鬼</span>
+          <span class="sticker">行李箱占领者</span>
+          <span class="sticker">猫条侦察员</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 02 猫生相册 ============ -->
+  <section class="panel" id="panel-album">
+    <div class="section-bar">
+      <span class="no">02</span>
+      <h2>ALBUM <span class="cn">猫生相册</span></h2>
+      <span class="tag-side">PHOTO COLLAGE</span>
+    </div>
+
+    <div class="album-wall">
+      <div class="photo p1">
+        <div class="pic"><img src="photo/10.jpg" alt="巡视领地"></div>
+        <div class="lab"><span class="n">No.01</span>巡视领地</div>
+      </div>
+      <div class="photo p2">
+        <div class="pic"><img src="photo/3.jpg" alt="假装乖巧"></div>
+        <div class="lab"><span class="n">No.02</span>假装乖巧</div>
+      </div>
+      <div class="photo p3">
+        <div class="pic"><img src="photo/2.jpg" alt="歪头杀"></div>
+        <div class="lab"><span class="n">No.03</span>歪头杀特写</div>
+      </div>
+      <div class="photo p4">
+        <div class="pic"><img src="photo/9.jpg" alt="霸占行李箱"></div>
+        <div class="lab"><span class="n">No.04</span>霸占行李箱</div>
+      </div>
+      <div class="photo p5">
+        <div class="pic"><img src="photo/8.jpg" alt="晒太阳充电"></div>
+        <div class="lab"><span class="n">No.05</span>晒太阳充电</div>
+      </div>
+      <div class="photo p6">
+        <div class="pic"><img src="photo/7.jpg" alt="吃猫条高光"></div>
+        <div class="lab"><span class="n">No.06</span>吃猫条高光</div>
+      </div>
+      <div class="photo p7">
+        <div class="pic"><img src="photo/4.jpg" alt="突然发疯"></div>
+        <div class="lab"><span class="n">No.07</span>突然发疯</div>
+      </div>
+      <div class="photo p8">
+        <div class="pic"><img src="photo/5.jpg" alt="暗中观察"></div>
+        <div class="lab"><span class="n">No.08</span>暗中观察</div>
+      </div>
+      <div class="photo p9">
+        <div class="pic"><img src="photo/6.jpg" alt="假装睡觉"></div>
+        <div class="lab"><span class="n">No.09</span>假装睡觉</div>
+      </div>
+
+      <div class="album-note">
+        "EVERY PICTURE TELLS A STORY" <span class="cn">· 每张照片都是一段猫生 ·</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 03 猫猫日记 ============ -->
+  <section class="panel" id="panel-diary">
+    <div class="section-bar">
+      <span class="no">03</span>
+      <h2>DIARY <span class="cn">汤姆日记</span></h2>
+      <span class="tag-side">FIRST PERSON · 第一人称连载</span>
+    </div>
+
+    <div class="diary-intro">
+      本栏目由 Tom 本猫口述，人类铲屎官整理。如有雷同，纯属本猫日常。
+    </div>
+
+    <div class="diary-list">
+
+      <article class="diary">
+        <div class="dno">01<small>ENTRY</small></div>
+        <div>
+          <div class="dhead">
+            <span class="ddate">2026.09.18 · 晴</span>
+            <span class="dtitle">绿植审查记</span>
+          </div>
+          <div class="dbody">
+            今日照例巡视家中绿植，走到阳台那盆<em>仙人掌</em>前，本着严谨的科学精神凑近端详。谁知这玩意儿主动反击，差点给我鼻头来一记暗器。后退三步，瞪了它两分钟，纹丝不动，态度嚣张。
+            <span class="quote">结论：危险植物，只看不动手。</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="diary">
+        <div class="dno">02<small>ENTRY</small></div>
+        <div>
+          <div class="dhead">
+            <span class="ddate">2026.09.19 · 多云</span>
+            <span class="dtitle">行李箱保卫战</span>
+          </div>
+          <div class="dbody">
+            人类又往<em>行李箱</em>里塞东西，看样子要出门。我当机立断一个箭步跃入箱中并原地躺平，任凭如何抚摸召唤均不为所动。
+            <span class="quote">人类去哪我跟去哪，箱子归我。</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="diary">
+        <div class="dno">03<small>ENTRY</small></div>
+        <div>
+          <div class="dhead">
+            <span class="ddate">2026.09.20 · 大晴天</span>
+            <span class="dtitle">表面睡觉，背后监控</span>
+          </div>
+          <div class="dbody">
+            表面看我在阳光窝里<em>呼呼大睡</em>，实际上耳朵全程 360° 雷达模式。人类开冰箱门的声音、撕猫条包装的脆响、橱柜抽屉的震动，一个都没漏。监控全屋，是本猫职责所在。
+            <span class="quote">睡觉是表象，掌控是本质。</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ 04 猫生成就 ============ -->
+  <section class="panel" id="panel-achv">
+    <div class="section-bar">
+      <span class="no">04</span>
+      <h2>ACHIEVEMENTS <span class="cn">猫生成就</span></h2>
+      <span class="tag-side">BADGE WALL</span>
+    </div>
+
+    <div class="achv-grid">
+
+      <div class="achv done">
+        <span class="seal">✓</span>
+        <div class="stat">CLEARED · 已完成</div>
+        <div class="ttl">行李箱占领成功</div>
+        <div class="desc">人类已放弃抵抗，行李箱归属权正式转移。下次出门记得先经本猫批准。</div>
+      </div>
+
+      <div class="achv done">
+        <span class="seal">✓</span>
+        <div class="stat">CLEARED · 已完成</div>
+        <div class="ttl">清晨准时叫醒人类</div>
+        <div class="desc">每日 07:00 准时上岗，闹钟功能稳定运行，零投诉（人类除外）。</div>
+      </div>
+
+      <div class="achv done">
+        <span class="seal">✓</span>
+        <div class="stat">CLEARED · 已完成</div>
+        <div class="ttl">无辜脸骗猫条</div>
+        <div class="desc">歪头 + 大眼 + 微微撒娇，三连击成功率 98%。剩余 2% 因人类睡过头。</div>
+      </div>
+
+      <div class="achv done">
+        <span class="seal">✓</span>
+        <div class="stat">CLEARED · 已完成</div>
+        <div class="ttl">阳光窝霸占者</div>
+        <div class="desc">每日全程值守，光照资源利用率 100%，寸土不让。</div>
+      </div>
+
+      <div class="achv todo hard">
+        <span class="seal">?</span>
+        <div class="stat">LOCKED · 地狱难度</div>
+        <div class="ttl">不碰仙人掌</div>
+        <div class="desc">进度 0%，估计永远卡关。看了就想摸，摸了就扎脸，死循环无解。</div>
+      </div>
+
+      <div class="achv todo">
+        <span class="seal">?</span>
+        <div class="stat">LOCKED · 待解锁</div>
+        <div class="ttl">停止拆家</div>
+        <div class="desc">难度系数 9.9，暂无计划。沙发、纸箱、人类的脚踝，都是合理目标。</div>
+      </div>
+
+    </div>
+
+    <div class="achv-banner">
+      "MORE BADGES COMING SOON" <span class="cn">· 更多成就，敬请期待 ·</span>
+    </div>
+  </section>
+
+  <!-- ============ 页脚 ============ -->
+  <footer>
+    <div class="big">THE TOM CHRONICLES <span class="cn">汤姆专刊</span></div>
+    <div>© 本页面版权属于奶牛猫 TOM 本人</div>
+    <div>人类铲屎官仅负责拍照 · 投喂 · 打扫 · 无权干涉本猫自由意志</div>
+    <div class="stamp">PAW PRINT APPROVED</div>
+  </footer>
+
+</div>
+
+<script>
+  // 导航标签切换：同一时间只显示一个板块
+  (function(){
+    var tabs = document.querySelectorAll('.nav-tab');
+    var panels = document.querySelectorAll('.panel');
+
+    function activate(target){
+      tabs.forEach(function(t){
+        t.classList.toggle('active', t.dataset.target === target);
+      });
+      panels.forEach(function(p){
+        p.classList.toggle('active', p.id === target);
+      });
+    }
+
+    tabs.forEach(function(tab){
+      tab.addEventListener('click', function(){
+        activate(tab.dataset.target);
+        // 移动端点击后滚动到导航条顶部
+        if(window.innerWidth <= 760){
+          document.getElementById('navTabs').scrollIntoView({behavior:'smooth', block:'start'});
+        }
+      });
+    });
+  })();
+</script>
+</body>
+</html>
